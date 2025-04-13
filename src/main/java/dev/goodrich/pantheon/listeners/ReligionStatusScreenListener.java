@@ -35,15 +35,4 @@ public class ReligionStatusScreenListener implements Listener {
         event.getStatusScreen().addComponentOf("religion",
                 Component.newline().append(Component.text(ChatColor.DARK_GREEN + "Religion breakdown: " + ChatColor.GREEN + breakdown)));
     }
-
-    /**
-     * When a resident's status screen is built, append the resident's personal religion.
-     */
-    @EventHandler
-    public void onResidentStatusScreen(ResidentStatusScreenEvent event) {
-        Resident resident = event.getResident();
-        String religion = ReligionData.getResidentReligion(resident.getUUID());
-        event.getStatusScreen().addComponentOf("religion",
-                Component.newline().append(Component.text(ChatColor.DARK_GREEN + "Religion: " + ChatColor.GREEN + religion)));
-    }
 }

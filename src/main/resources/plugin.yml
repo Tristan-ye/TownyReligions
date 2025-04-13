@@ -2,6 +2,7 @@ name: Pantheon
 version: '1.0.0'
 main: dev.goodrich.pantheon.Pantheon
 api-version: '1.21'
+author: 0xBit
 folia-supported: true
 description: "Pantheon integrates religion data into Towny's info screens, allowing residents to set their religion and displaying breakdowns in towns and nations."
 commands:
@@ -15,4 +16,3 @@ permissions:
     default: op
 softdepend:
   - Towny
-  - PlaceholderAPI
