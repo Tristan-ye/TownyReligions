@@ -6,7 +6,6 @@ import com.palmergames.bukkit.towny.object.metadata.StringDataField;
 import dev.goodrich.pantheon.Pantheon;
 import dev.goodrich.pantheon.util.ReligionCalculator;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,17 +24,20 @@ public class ReligionData {
         Resident resident = TownyAPI.getInstance().getResident(uuid);
         if (resident == null) return;
 
-        // Update metadata
-        StringDataField field = new StringDataField(Pantheon.RELIGION_METADATA_KEY, religion, "Religion");
+        // Remove any existing Religion metadata
+        resident.removeMetaData(Pantheon.RELIGION_METADATA_KEY);
+
+        // Now add the fresh one
+        StringDataField field =
+                new StringDataField(Pantheon.RELIGION_METADATA_KEY, religion, "Religion");
         resident.addMetaData(field);
 
-        // Update cache
+        // Update cache & town breakdown as before…
         religionCache.put(uuid, religion);
-
-        if (resident.hasTown()) {
+        if (resident.hasTown())
             ReligionCalculator.refreshTown(resident.getTownOrNull());
-        }
     }
+
 
     /**
      * Retrieve the religion for a resident.

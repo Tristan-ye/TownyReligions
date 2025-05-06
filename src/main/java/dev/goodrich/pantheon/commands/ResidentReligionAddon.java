@@ -4,6 +4,7 @@ import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
 import com.palmergames.bukkit.towny.command.BaseCommand;
 import com.palmergames.bukkit.towny.object.AddonCommand;
 import dev.goodrich.pantheon.data.ReligionData;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -40,7 +41,7 @@ public class ResidentReligionAddon extends BaseCommand implements TabExecutor {
                     ? getResidentOrThrow(args[0])
                     : getResidentOrThrow((Player) sender);
             String religion = ReligionData.getResidentReligion(resident.getUUID());
-            sender.sendMessage("Resident " + resident.getName() + "'s Religion: " + religion);
+            sender.sendMessage(ChatColor.DARK_GREEN + resident.getName() + "'s Religion: " + ChatColor.GREEN + religion);
         } catch (Exception e) {
             sender.sendMessage("Resident not found.");
         }

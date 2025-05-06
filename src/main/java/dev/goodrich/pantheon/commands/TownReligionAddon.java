@@ -5,6 +5,7 @@ import com.palmergames.bukkit.towny.command.BaseCommand;
 import com.palmergames.bukkit.towny.object.AddonCommand;
 import com.palmergames.bukkit.towny.object.Town;
 import dev.goodrich.pantheon.util.ReligionCalculator;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -49,7 +50,7 @@ public class TownReligionAddon extends BaseCommand implements TabExecutor {
         }
 
         String breakdown = ReligionCalculator.getTownBreakdown(town);
-        sender.sendMessage("Religion breakdown for town " + town.getName() + ": " + breakdown);
+        sender.sendMessage(ChatColor.DARK_GREEN + "Religion breakdown for the town of" + town.getName() + ": " + ChatColor.GREEN + breakdown);
         return true;
     }
 }
