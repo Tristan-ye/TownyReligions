@@ -12,6 +12,11 @@ public class PantheonReloadCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if(!sender.hasPermission("pantheon.reload")) {
+            return true;
+        }
+
         // Expect the command to be: /pantheon reload religions
         if (args.length >= 2 && args[0].equalsIgnoreCase("reload") && args[1].equalsIgnoreCase("religions")) {
             Pantheon plugin = Pantheon.getInstance();

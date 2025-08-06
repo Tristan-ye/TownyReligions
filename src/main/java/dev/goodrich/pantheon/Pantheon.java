@@ -46,6 +46,8 @@ public final class Pantheon extends JavaPlugin {
         // Register reload command for /pantheon reload religions.
         getCommand("pantheon").setExecutor(new PantheonReloadCommand());
 
+        getCommand("religions").setExecutor(new ServerReligionCommand());
+
         // Initialize and register the resident set religion command.
         // The command registers itself with TownyCommandAddonAPI.
         new SetReligionCommand();

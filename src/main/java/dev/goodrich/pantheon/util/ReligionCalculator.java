@@ -1,5 +1,6 @@
 package dev.goodrich.pantheon.util;
 
+import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
@@ -85,6 +86,27 @@ public class ReligionCalculator {
         }
     }
 
+    private static final long SERVER_CACHE_DURATION = 10 * 60 * 1000;
+    private static CachedBreakdown serverCache = null;
+
+    public static String getServerBreakdown() {
+        long now = System.currentTimeMillis();
+        if (serverCache != null && now - serverCache.timestamp < SERVER_CACHE_DURATION) {
+            return serverCache.breakdown;
+        }
+
+        Map<String, Integer> counts = new HashMap<>();
+        int total = 0;
+        for (Resident resident : TownyAPI.getInstance().getResidents()) {
+            String religion = ReligionData.getResidentReligion(resident.getUUID());
+            counts.put(religion, counts.getOrDefault(religion, 0) + 1);
+            total++;
+        }
+        String breakdown = formatBreakdown(counts, total);
+        serverCache = new CachedBreakdown(breakdown, now);
+        return breakdown;
+    }
+
     public static void invalidateNation(String name) {
         nationCache.remove(name);
     }
@@ -108,5 +130,6 @@ public class ReligionCalculator {
     public static void clearCaches() {
         townCache.clear();
         nationCache.clear();
+        serverCache = null;
     }
 }
