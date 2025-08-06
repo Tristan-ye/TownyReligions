@@ -66,7 +66,11 @@ public class ReligionCalculator {
             return "No data";
         }
         for (Map.Entry<String, Integer> entry : counts.entrySet()) {
-            double percent = (entry.getValue() * 100.0) / total;
+            int count = entry.getValue();
+            if (count == 0)
+                continue;
+
+            double percent = (count * 100.0) / total;
             sb.append(entry.getKey())
                     .append(": ")
                     .append(String.format("%.0f", percent))
