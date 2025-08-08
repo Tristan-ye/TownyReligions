@@ -9,10 +9,19 @@ commands:
   pantheon:
     description: "Pantheon admin command (e.g. /pantheon reload religions)"
     usage: "/pantheon reload religions"
-    aliases: [phan]
+    permission: pantheon.reload
+    permission-message: "You don’t have permission to view religions."
+  religions:
+    description: "Show server-wide religion breakdown (e.g. /religions)"
+    usage: "/religions"
+    permission: pantheon.view
+    permission-message: "You don’t have permission to view religions."
 permissions:
   pantheon.reload:
     description: "Allows reloading of religion configuration."
     default: op
+  pantheon.view:
+    description: "Allows viewing of total religion count on the server."
+    default: true
 softdepend:
   - Towny

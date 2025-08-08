@@ -1,5 +1,6 @@
 package dev.goodrich.pantheon.util;
 
+import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
@@ -65,7 +66,11 @@ public class ReligionCalculator {
             return "No data";
         }
         for (Map.Entry<String, Integer> entry : counts.entrySet()) {
-            double percent = (entry.getValue() * 100.0) / total;
+            int count = entry.getValue();
+            if (count == 0)
+                continue;
+
+            double percent = (count * 100.0) / total;
             sb.append(entry.getKey())
                     .append(": ")
                     .append(String.format("%.0f", percent))
@@ -83,6 +88,27 @@ public class ReligionCalculator {
             this.breakdown = breakdown;
             this.timestamp = timestamp;
         }
+    }
+
+    private static final long SERVER_CACHE_DURATION = 10 * 60 * 1000;
+    private static CachedBreakdown serverCache = null;
+
+    public static String getServerBreakdown() {
+        long now = System.currentTimeMillis();
+        if (serverCache != null && now - serverCache.timestamp < SERVER_CACHE_DURATION) {
+            return serverCache.breakdown;
+        }
+
+        Map<String, Integer> counts = new HashMap<>();
+        int total = 0;
+        for (Resident resident : TownyAPI.getInstance().getResidents()) {
+            String religion = ReligionData.getResidentReligion(resident.getUUID());
+            counts.put(religion, counts.getOrDefault(religion, 0) + 1);
+            total++;
+        }
+        String breakdown = formatBreakdown(counts, total);
+        serverCache = new CachedBreakdown(breakdown, now);
+        return breakdown;
     }
 
     public static void invalidateNation(String name) {
@@ -108,5 +134,6 @@ public class ReligionCalculator {
     public static void clearCaches() {
         townCache.clear();
         nationCache.clear();
+        serverCache = null;
     }
 }
